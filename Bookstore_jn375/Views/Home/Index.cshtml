@@ -1,0 +1,32 @@
+﻿@model BooksViewModel
+
+<h1>My Bookstore</h1>
+
+@foreach (Books p in Model.Books)
+{
+    // card display for each book ready to buy
+    <div class="card card-outline-primary m-1 p-1">
+        <div class="bg-faded p-1">
+            <h4>
+                @p.Title
+                <span class="badge badge-pill badge-primary" style="float:right">
+                    <small>@p.Price.ToString("c")</small>
+                </span>
+            </h4>
+        </div>
+        <div class="card-text p-1">Author: @p.Author</div>
+        <div class="card-text p-1">Publisher: @p.Publisher</div>
+        <div class="card-text p-1">ISBN: @p.Isbn</div>
+        <div class="card-text p-1">Classification: @p.Classification</div>
+        <div class="card-text p-1">Category: @p.Category</div>
+        <div class="card-text p-1">Page Count: @p.PageCount</div>
+
+    </div>
+
+}
+@* pagination according to how many books*@
+<div page-blah="@Model.PageInfo" page-action="Index"
+     page-classes-enabled="true"
+     page-class="btn" page-class-normal="btn-outline-dark"
+     page-class-selected="btn-primary" class="btn-group pull-right m-1">
+</div>
