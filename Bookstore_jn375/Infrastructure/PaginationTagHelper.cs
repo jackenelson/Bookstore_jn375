@@ -27,11 +27,8 @@ namespace Bookstore_jn375.Infrastructure
         public ViewContext vc { get; set; }
         public PageInfo PageBlah { get; set; }
         public string PageAction { get; set; }
-
-
-
-        public bool PageClassesEnabled { get; set; } = false;
         public string PageClass { get; set; }
+        public bool PageClassesEnabled { get; set; }
         public string PageClassNormal { get; set; }
         public string PageClassSelected { get; set; }
 
@@ -44,14 +41,13 @@ namespace Bookstore_jn375.Infrastructure
             {
                 TagBuilder tb = new TagBuilder("a");
 
+                tb.Attributes["href"] = uh.Action(PageAction, new { pageNum = i });
                 if (PageClassesEnabled)
                 {
                     tb.AddCssClass(PageClass);
-                    tb.AddCssClass(i == PageBlah.CurrentPage
-                        ? PageClassSelected : PageClassNormal);
+                    tb.AddCssClass(i == PageBlah.CurrentPage ? PageClassSelected : PageClassNormal);
                 }
-
-                tb.Attributes["href"] = uh.Action(PageAction, new { pageNum = i });
+                tb.AddCssClass(PageClass);
                 tb.InnerHtml.Append(i.ToString());
 
                 final.InnerHtml.AppendHtml(tb);
