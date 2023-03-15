@@ -20,6 +20,6 @@ namespace Bookstore_jn375.Models
         }
 
         public virtual DbSet<Books> Books { get; set; }
-         
+        public DbSet<Purchase> Purchases { get; set; }
     }
 }

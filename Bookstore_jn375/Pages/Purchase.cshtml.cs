@@ -12,27 +12,28 @@ namespace Bookstore_jn375.Pages
     public class PurchaseModel : PageModel
     {
         private IBookstoreRepository repo { get; set; }
-
-        public PurchaseModel(IBookstoreRepository temp)
-        {
-            repo = temp;
-        }
-
         public Cart cart { get; set; }
         public string ReturnUrl { get; set; }
+        public PurchaseModel(IBookstoreRepository temp, Cart c)
+        {
+            repo = temp;
+            cart = c;
+        }
         public void OnGet(string returnUrl)
         {
             ReturnUrl = returnUrl ?? "/";
-            cart = HttpContext.Session.GetJson<Cart>("cart") ?? new Cart();
         }
 
-        public IActionResult OnPost(int bookid, string returnUrl)
+        public IActionResult OnPost(int bookId, string returnUrl)
         {
-            Books p = repo.Books.FirstOrDefault(x => x.BookId == bookid);
-            cart = HttpContext.Session.GetJson<Cart>("cart") ?? new Cart();
+            Books p = repo.Books.FirstOrDefault(x => x.BookId == bookId);
             cart.AddItem(p, 1);
+            return RedirectToPage(new { ReturnUrl = returnUrl });
+        }
 
-            HttpContext.Session.SetJson("cart", cart);
+        public IActionResult OnPostRemove(int bookId, string returnUrl)
+        {
+            cart.RemoveItem(cart.Items.First(x => x.Books.BookId == bookId).Books);
 
             return RedirectToPage(new { ReturnUrl = returnUrl });
         }

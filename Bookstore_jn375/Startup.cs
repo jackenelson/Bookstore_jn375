@@ -1,6 +1,7 @@
 using Bookstore_jn375.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -28,10 +29,13 @@ namespace Bookstore_jn375
                 options.UseSqlite(Configuration["ConnectionStrings:BookDBConnection"]);
             });
             services.AddScoped<IBookstoreRepository, EFBookstoreRepository>();
-
+            services.AddScoped<IPurchaseRepository, EFPurchaseRepository>();
             services.AddRazorPages();
             services.AddDistributedMemoryCache();
             services.AddSession();
+
+            services.AddScoped<Cart>(x => SessionCart.GetCart(x));
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
